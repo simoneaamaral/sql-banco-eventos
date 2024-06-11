@@ -1,0 +1,70 @@
+CREATE TABLE pessoas
+(
+	cpf varchar(11) primary key,
+	nome varchar(150) not null,
+	email varchar (80)not null,
+	fone varchar (20) not null
+)
+
+SELECT * FROM pessoas;
+
+CREATE TABLE tipo_evento
+(
+	id serial primary key,
+	tipo varchar(80) not null
+)
+
+SELECT * FROM tipo_evento;
+
+CREATE TABLE eventos
+(
+	id serial primary key,
+	nome varchar(80) not null,
+	data_ini date not null,
+	data_fim date not null,
+	localizacao varchar(50) not null,
+	fk_tipo integer not null,
+	foreign key(fk_tipo) references tipo_evento(id)
+)
+
+SELECT * FROM eventos;
+
+CREATE TABLE programacao
+(
+	id serial primary key,
+	fk_evento integer not null,
+	foreign key(fk_evento) references eventos(id),
+	nome varchar(150) not null,
+	descrição varchar(300) not null,
+	data_ini date not null,
+	data_fim date not null,
+	lugar varchar(50) not null,
+	responsavel varchar(150) not null	
+)
+
+SELECT * FROM programacao;
+
+CREATE TABLE ingressos
+(
+	id serial primary key,
+	titulo varchar(50) not null,
+	lugar varchar(50) not null,
+	valor float not null,
+	quantidade Integer not null,
+	fk_evento integer not null,
+	foreign key (fk_evento) references eventos(id)
+)
+
+SELECT * FROM ingressos;
+
+CREATE TABLE compra
+(
+	id serial primary key,
+	fk_pessoa varchar(11) not null,
+	fk_ingresso integer not null,
+	quantidade integer not null,
+	foreign key (fk_pessoa) references pessoas(cpf),
+	foreign key (fk_ingresso) references ingressos(id)
+)
+
+SELECT * FROM compra;
